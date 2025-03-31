@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Econet - Marketplace Agrícola</title>
+  <!-- Favicon Emoji Rural -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+    .container-inicial {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: green;
+      padding: 0 20px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+    .container-esquerda {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+    .container-central {
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+      justify-content: center;
+    }
+    .search {
+      font-size: 16px;
+      width: 400px;
+      height: 35px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px 0 0 5px;
+      outline: none;
+    }
+    .search-button {
+      height: 35px;
+      background-color: #ddd;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+    }
+    .search-button img {
+      height: 20px;
+    }
+    .container-direita {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .container-direita button {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .container-direita img {
+      height: 25px;
+    }
+
+    /* Barra de categorias fixada abaixo do cabeçalho */
+    .categoria-bar {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      background-color: #f8f8f8;
+      padding: 10px;
+      position: fixed;
+      top: 70px;
+      width: 100%;
+      z-index: 999;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .categoria-bar button {
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    .categoria-bar button:hover {
+      background-color: #e0e0e0;
+    }
+
+    .main-content {
+      display: flex;
+      margin-top: 120px; /* Ajustado para evitar sobreposição com a barra de categorias */
+      padding: 20px;
+      align-items: center;
+    }
+    .quemsomos {
+      padding-left: 200px;
+      width: 10%;
+      background: #f4f4f4;
+    }
+    .descricao {
+      flex-grow: 1;
+      margin-left: 140px;
+      font-size: 18px;
+    }
+    .logo {
+      width: 170px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    /* Seção de Produtos em Destaque */
+    .produtos-destaque {
+      margin: 40px auto;
+      width: 90%;
+      ;
+    }
+    .produtos-destaque h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .grid-produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      justify-content: center;
+    }
+    .produto {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .produto img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .produto p {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+    .produto button {
+      background-color: #008080;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .produto button:hover {
+      background-color: #006666;
+    }
+    .welcome-banner {
+      width: 100%;
+      padding: 25px;
+      margin-top: 120px;
+      display: flex;
+      justify-content: space-between; /* Alinha os itens nas extremidades */
+      align-items: center;
+      background-color: #f8f8f8;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .welcome-logo {
+      width: 120px;
+      margin-left: 50px; /* Espaçamento da borda esquerda */
+    }
+    
+    .welcome-center {
+      flex-grow: 1; /* Ocupa todo o espaço disponível */
+      text-align: center; /* Centraliza o texto */
+      padding: 0 20px;
+    }
+    
+    .welcome-title {
+      font-size: 28px;
+      color: #008080;
+      font-weight: bold;
+      margin: 0;
+    }
+    
+    .user-name {
+      color: #006666;
+      font-weight: bold;
+    }
+      .logo
+      {
+width: ;
+      }
+
+
+
+    .about-section {
+      background-color: #f8f8f8;
+      padding: 50px 20px;
+      margin-top: 40px;
+      border-top: 2px solid #008080;
+    }
+    .about-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .about-column {
+      flex: 1;
+      min-width: 300px;
+      padding: 0 20px;
+      margin-bottom: 30px;
+    }
+    .about-title {
+      font-size: 24px;
+      color: #008080;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .about-text {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 15px;
+    }
+    .about-highlight {
+      color: #006666;
+      font-weight: bold;
+    }
+    .about-mission {
+      background-color: #e6f3f3;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    .firstpart{
+      color: gree;
+    }
+    .parceiro-section {
+    background-color: white;
+    padding: 50px 20px;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .parceiro-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .parceiro-title {
+    font-size: 28px;
+    color: #008080;
+    margin-bottom: 10px;
+  }
+  
+  .parceiro-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 40px;
+  }
+  
+  .parceiro-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .parceiro-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .parceiro-link:hover {
+    transform: scale(1.05);
+  }
+  
+  .parceiro-logo {
+    width: 180px;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .parceiro-name {
+    font-size: 18px;
+    color: #008080;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .parceiro-link:hover .parceiro-name {
+    color: #006666;
+    text-decoration: underline;
+  }
+   
+  </style>
+</head>
+<body>
+  <div class="container-inicial">
+    <div class="container-esquerda"><span class="firstpart">Eco</span><span class="secondpart">nect</span></div>
+    <div class="container-central">
+      <input class="search" type="text" placeholder="Buscar produtos, fornecedores...">
+      <button class="search-button">
+        <img src="Icons/search.svg" alt="Buscar">
+      </button>
+    </div>
+    <div class="container-direita">
+      <button>
+        <img class="cart" src="Icons/hamburger-menu.svg" alt="Carrinho">
+      </button>
+    </div>
+  </div>
+
+  <!-- Barra de categorias fixada -->
+  <div class="categoria-bar">
+    <button>Frutas</button>
+    <button>Legumes</button>
+    <button>Sementes</button>
+    <button>Grãos</button>
+    <button>Laticínios</button>
+    <button>Verduras</button>
+    <button>Mais...</button>
+  </div>
+<!-- Nova div de boas-vindas -->
+<div class="welcome-banner">
+  <div class="welcome-logo">
+    <img class="logo" src="Icons/WhatsApp Image 2025-03-20 at 09.26.31_18c7fe02.jpg" alt="Logo Econet">
+  </div>
+  <div class="welcome-center">
+    <h1 class="welcome-title">Seja bem-vindo, <span class="user-name">José!</span></h1>
+  </div>
+  <div style="width: 220px;"></div> <!-- Espaço vazio para balancear o layout -->
+</div>
+
+<div class="produtos-destaque">
+  <h2>Produtos em Destaque</h2>
+  <div class="grid-produtos">
+    <div class="produto">
+      <img src="Icons/oranges-8458993_640.jpg" alt="Laranja">
+      <p><strong>Laranja Pera - 5kg</strong></p>
+      <p>R$ 25,00</p>
+      <p>Vendedor: João Silva</p>
+      <p>Cidade: São Paulo, SP</p>
+      <button>Comprar</button>
+    </div>
+    <div class="produto">
+      <img src="https://pngimg.com/uploads/coffee_beans/coffee_beans_PNG9278.png" alt="Grãos de Café">
+      <p><strong>Grãos de Café Premium - 1kg</strong></p>
+      <p>R$ 40,00</p>
+      <p>Vendedora: Maria Santos</p>
+      <p>Cidade: Belo Horizonte, MG</p>
+      <button>Comprar</button>
+    </div>
+    <div class="produto">
+      <img src="https://gomagcdn.ro/domains/antomaragro.ro/files/product/original/rosii_oltena.jpg-1-9559.jpg" alt="Tomates">
+      <p><strong>Tomates Orgânicos - 2kg</strong></p>
+      <p>R$ 18,00</p>
+      <p>Vendedor: Carlos Oliveira</p>
+      <p>Cidade: Rio de Janeiro, RJ</p>
+      <button>Comprar</button>
+    </div>
+    <div class="produto">
+      <img src="https://1.bp.blogspot.com/-E1DyEhSFB_Q/V58xnPbPdZI/AAAAAAAAM3E/rBXcD9QPlaY6u5AHIOfKoSToMJUy2ELHwCLcB/s640/feij%25C3%25A3o%2Bfradinho.jpg" alt="Feijão Fradinho">
+      <p><strong>Feijão Fradinho - 3kg</strong></p>
+      <p>R$ 30,00</p>
+      <p>Vendedora: Ana Souza</p>
+      <p>Cidade: Fortaleza, CE</p>
+      <button>Comprar</button>
+    </div>
+  </div>
+</div>
+
+<div class="produtos-destaque">
+  <h2>Frutas</h2>
+  <div class="grid-produtos">
+    <div class="produto">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg" alt="Maçã">
+      <p><strong>Maçã Fuji - 1kg</strong></p>
+      <p>R$ 12,00</p>
+      <p>Vendedor: Pedro Lima</p>
+      <p>Cidade: Curitiba, PR</p>
+      <button>Comprar</button>
+    </div>
+    <div class="produto">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg" alt="Banana">
+      <p><strong>Banana Prata - 1kg</strong></p>
+      <p>R$ 8,00</p>
+      <p>Vendedora: Juliana Mendes</p>
+      <p>Cidade: Salvador, BA</p>
+      <button>Comprar</button>
+    </div>
+    <div class="produto">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Watermelons.jpg/375px-Watermelons.jpg" alt="Melancia">
+      <p><strong>Melancia Inteira - 5kg</strong></p>
+      <p>R$ 20,00</p>
+      <p>Vendedor: Eduardo Ferreira</p>
+      <p>Cidade: Porto Alegre, RS</p>
+      <button>Comprar</button>
+    </div>
+    <div class="produto">
+      <img src="https://4.bp.blogspot.com/-lvHk5RHWpkU/Ua-qf-yqywI/AAAAAAAAKb0/Nfud_KtlN1M/s1600/IMG_0767.JPG" alt="Manga">
+      <p><strong>Manga Palmer - 2kg</strong></p>
+      <p>R$ 15,00</p>
+      <p>Vendedora: Camila Rocha</p>
+      <p>Cidade: Recife, PE</p>
+      <button>Comprar</button>
+    </div>
+  </div>
+</div>
+
+  
+
+<div class="produtos-destaque">
+  <h2>Legumes</h2>
+  <div class="grid-produtos">
+    <div class="produto">
+      <img src="https://imagens.usp.br/wp-content/uploads/01062012cenoura_FotoMarcosSantos001.jpg" alt="Cenoura">
+      <p><strong>Cenoura Orgânica - 1kg</strong></p>
+      <p>R$ 10,00</p>
+      <p>Vendedor: Ricardo Alves</p>
+      <p>Cidade: São Paulo, SP</p>
+      <button>Comprar</button>
+    </div>
+    <div class="produto">
+      <img src="https://2.bp.blogspot.com/-x5Fadi-eqgc/UvKeKFXaSvI/AAAAAAAAJdQ/yScprAvd1ds/s1600/Bell-Peppers.jpg" alt="Pimentão">
+      <p><strong>Pimentão Colorido - 3 Unidades</strong></p>
+      <p>R$ 15,00</p>
+      <p>Vendedora: Patrícia Gomes</p>
+      <p>Cidade: Brasília, DF</p>
+      <button>Comprar</button>
+    </div>
+    <div class="produto">
+      <img src="https://belezaesaude.com/i/f/o/saude/conteudo/brocolis-1.jpg" alt="Brócolis">
+      <p><strong>Brócolis Ninja - Unidade</strong></p>
+      <p>R$ 9,00</p>
+      <p>Vendedor: Fernando Costa</p>
+      <p>Cidade: Florianópolis, SC</p>
+      <button>Comprar</button>
+    </div>
+    <div class="produto">
+      <img src="https://hortas.info/sites/default/files/field/imagens/canonigos/alface-cordeiro001.jpg" alt="Alface">
+      <p><strong>Alface Crespa - Unidade</strong></p>
+      <p>R$ 5,00</p>
+      <p>Vendedora: Larissa Mendes</p>
+      <p>Cidade: Goiânia, GO</p>
+      <button>Comprar</button>
+    </div>
+  </div>
+</div>
+
+   <!-- Nova seção Sobre Nós -->
+   <div class="about-section">
+    <div class="about-container">
+      <div class="about-column">
+        <h2 class="about-title">Sobre a Econet</h2>
+        <p class="about-text">
+          A <span class="about-highlight">Econet</span> é um marketplace inovador que conecta <span class="about-highlight">pequenos agricultores orgânicos</span> diretamente com <span class="about-highlight">grandes empresas</span> e consumidores finais.
+        </p>
+        <p class="about-text">
+          Nossa plataforma foi criada para democratizar o acesso ao mercado, eliminando intermediários e garantindo preços justos tanto para quem produz quanto para quem consome.
+        </p>
+      </div>
+      
+      <div class="about-column">
+        <h2 class="about-title">Como Funciona</h2>
+        <p class="about-text">
+          Através da nossa tecnologia, agricultores familiares e produtores orgânicos podem <span class="about-highlight">expor seus produtos</span> para uma rede de compradores qualificados.
+        </p>
+        <p class="about-text">
+          Empresas e distribuidores encontram <span class="about-highlight">produtos de qualidade</span> diretamente da fonte, com rastreabilidade e certificação garantida.
+        </p>
+      </div>
+      
+      <div class="about-column">
+        <div class="about-mission">
+          <h2 class="about-title">Nossa Missão</h2>
+          <p class="about-text">
+            Transformar a cadeia de suprimentos agrícolas, promovendo <span class="about-highlight">comércio justo</span>, <span class="about-highlight">sustentabilidade</span> e <span class="about-highlight">eficência</span> em todo o processo.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seção de Empresa Parceira -->
+<div class="parceiro-section">
+  <div class="parceiro-container">
+    <h2 class="parceiro-title">Nosso Parceiro</h2>
+    <p class="parceiro-subtitle">Empresa que acredita e apoia a agricultura sustentável</p>
+    
+    <div class="parceiro-wrapper">
+      <a href="https://www.site-do-parceiro.com" target="_blank" class="parceiro-link">
+        <img src="Icons/WhatsApp Image 2025-03-31 at 20.46.14_2c13bb50.jpg" alt="Logo Parceiro" class="parceiro-logo">
+        <p class="parceiro-name">SABOREIE-SE</p>
+      </a>
+    </div>
+  </div>
+</div>
+</body>
+</html>
